@@ -1,21 +1,27 @@
 #ifndef _LCD_H
 #define _LCD_H
 
-#define PORTC PORT
-#define data 1
-#define clk 0
-#define en 2
-/*
-#define data_0 PORTC &= ~(1<<data)
-#define data_1 PORTC |= (1<<data)
-#define clk_0 PORTC &= ~(1<<clk)
-#define clk_1 PORTC |= (1<<clk)
-#define en_0 PORTC &= ~(1<<en)
-#define en_1 PORTC |= (1<<en)
-*/
+#define PORT PORTC
+#define CLK 0
+#define DATA 1
+#define EN 2
+
+#define CLK_0 PORT &= ~(1<<CLK)
+#define CLK_1 PORT |= (1<<CLK)
+#define DATA_0 PORT &= ~(1<<DATA)
+#define DATA_1 PORT |= (1<<DATA)
+#define EN_0 PORT &= ~(1<<EN)
+#define EN_1 PORT |= (1<<EN)
+
 #pragma used+
 
-void send(unsigned char);
+void send_0(void);
+void send_1(void);
+void send(unsigned char, unsigned char);
+
+void LCD_CMD(unsigned char );
+void LCD_DATA(char);
+
 void lcd_init(void);
 void lcd_clear(void);
 void lcd_gotoxy(int, int);
