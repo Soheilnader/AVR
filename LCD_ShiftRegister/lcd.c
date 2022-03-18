@@ -49,24 +49,12 @@ void send(unsigned char Data, unsigned char Cmd)
 
 
 void LCD_CMD(unsigned char cmd){
-    send(cmd, 0x80);
-    //rs = 0;
-    //en = 1;
-    delay_ms(1);
-    send(cmd, 0x00);
-    //rs = 0;
-    //en = 1;
-    //en = 0;
-    delay_ms(1); 
+    send(cmd, 0x80); //rs=0, en=1
+    send(cmd, 0x00); //rs=0, en=0
 }
 void LCD_DATA(char data){
-    send(data, 0xC0);
-    //rs = 1;
-    //en = 1;
-    delay_ms(1);
-    send(data, 0x40);
-    //en = 0;
-    delay_ms(1);
+    send(data, 0xC0); //rs=1, en=1
+    send(data, 0x40); //rs=1, en=0
 }
 void lcd_init(){
  LCD_CMD(0x38); //init
@@ -84,7 +72,6 @@ void lcd_gotoxy(int x, int y){
 int i;
  if(x){
  LCD_CMD(0xC0);
- delay_ms(1);
  for (i=0; i<y; i++)
  LCD_CMD(0x14);
  }
@@ -98,7 +85,6 @@ LCD_DATA(ch);
 }
 void lcd_puts(char *str){
 int i=0;
-delay_ms(1);
  while(str[i] != 0)
  {
   lcd_putchar(str[i]);
