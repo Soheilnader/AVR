@@ -8,7 +8,6 @@ void send_0(void)
     CLK_0;
     DATA_0;
     CLK_1;
-    delay_ms(1);
     CLK_0;
 }
 
@@ -17,7 +16,6 @@ void send_1(void)
     CLK_0;
     DATA_1;
     CLK_1;
-    delay_ms(1);
     CLK_0;
 }
 
