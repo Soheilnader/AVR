@@ -40,52 +40,51 @@ void send(unsigned char Data, unsigned char Cmd)
     }
     EN_0;
     EN_1;
-    delay_ms(1);
+    delay_us(500);
     EN_0;
     
 }
 
 
 void LCD_CMD(unsigned char cmd){
+    send(cmd, 0x00); //rs=0, en=0
     send(cmd, 0x80); //rs=0, en=1
     send(cmd, 0x00); //rs=0, en=0
 }
-void LCD_DATA(char data){
+void LCD_DATA(unsigned char data){
+    send(data, 0x40); //rs=1, en=0
     send(data, 0xC0); //rs=1, en=1
     send(data, 0x40); //rs=1, en=0
 }
 void lcd_init(){
- LCD_CMD(0x38); //init
-  LCD_CMD(0x0C); //display on
-
- LCD_CMD(0x01); //clear
-  LCD_CMD(0x80);//first colimn, first row 
+    LCD_CMD(0x38); //init 2x16 LCD
+    LCD_CMD(0x0C); //display on, cursor off
+    LCD_CMD(0x01); //clear
+    LCD_CMD(0x80);//first column, first row 
  
 }
 void lcd_clear(void){
- LCD_CMD(0x01); //clear
-
+    LCD_CMD(0x01); //clear
 }
-void lcd_gotoxy(int x, int y){
-int i;
- if(x){
- LCD_CMD(0xC0);
- for (i=0; i<y; i++)
- LCD_CMD(0x14);
- }
-else{
- for (i=0; i<y; i++)
- LCD_CMD(0x14);
- }
+void lcd_gotoxy(unsigned char x, unsigned char y){
+    int i;
+    if(x){
+        LCD_CMD(0xC0);    //first column, second row
+        for (i=0; i<y; i++)
+        LCD_CMD(0x14);    //shift cursor right
+        }
+    else{
+        for (i=0; i<y; i++)
+        LCD_CMD(0x14);    //shift cursor right
+        }
 }
-void lcd_putchar(char ch){
-LCD_DATA(ch);
-}
+void lcd_putchar(unsigned char ch){
+    LCD_DATA(ch);
+    }
 void lcd_puts(char *str){
-int i=0;
- while(str[i] != 0)
- {
-  lcd_putchar(str[i]);
-  i++;
- }
+    int i=0;
+    while(str[i] != 0){
+    lcd_putchar(str[i]);
+    i++;
+    }
 }
